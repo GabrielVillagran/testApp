@@ -1,9 +1,3 @@
-//  LabelAndTextField.swift
-//  SwiftUIandUIKit
-//
-//  Created by GenericDevCalifornia on 12/30/24.
-
-
 import SwiftUI
 
 struct LabelAndTextField: View {

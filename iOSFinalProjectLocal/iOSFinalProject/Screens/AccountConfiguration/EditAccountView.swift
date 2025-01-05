@@ -1,15 +1,9 @@
-//
-//  EditAccount.swift
-//  iOSFinalProject
-//
-//  Created by GenericDevCalifornia on 1/4/25.
-//
 import Foundation
 import SwiftUI
 
 struct EditAccountView: View {
 
-    @ObservedObject private var viewmodel = CreateAccountViewModel()
+    @ObservedObject private var viewModel = CreateAccountViewModel()
 
     var body: some View {
         NavigationView {
@@ -18,21 +12,21 @@ struct EditAccountView: View {
                     .font(.title)
                     .padding(90)
 
-                LabelAndTextField(title: accountModification.newUserName.rawValue, inputPlaceHolder: CreateAccountStrings.usernamePlaceHolder.rawValue, inputBinder: $viewmodel.name)
-                    .onChange(of: viewmodel.name) {
-                        viewmodel.validateUsername()
+                LabelAndTextField(title: accountModification.newUserName.rawValue, inputPlaceHolder: CreateAccountStrings.usernamePlaceHolder.rawValue, inputBinder: $viewModel.name)
+                    .onChange(of: viewModel.name) {
+                        viewModel.validateUsername()
                     }
 
-                LabelAndTextField(title: accountModification.newEmail.rawValue, inputPlaceHolder: CreateAccountStrings.emailPlaceHolder.rawValue, inputBinder: $viewmodel.email)
-                    .onChange(of: viewmodel.email) {
-                        viewmodel.validateEmail()
+                LabelAndTextField(title: accountModification.newEmail.rawValue, inputPlaceHolder: CreateAccountStrings.emailPlaceHolder.rawValue, inputBinder: $viewModel.email)
+                    .onChange(of: viewModel.email) {
+                        viewModel.validateEmail()
                     }
 
-                LabelAndTextField(title: accountModification.newPassword.rawValue, inputPlaceHolder: CreateAccountStrings.passwordPlaceHolder.rawValue, inputBinder: $viewmodel.password)
-                    .onChange(of: viewmodel.password) {
-                        viewmodel.validatePassword()
+                LabelAndTextField(title: accountModification.newPassword.rawValue, inputPlaceHolder: CreateAccountStrings.passwordPlaceHolder.rawValue, inputBinder: $viewModel.password)
+                    .onChange(of: viewModel.password) {
+                        viewModel.validatePassword()
                     }
-                ErrorLabel(message: viewmodel.validationStatus.rawValue)
+                ErrorLabel(message: viewModel.validationStatus.rawValue)
 
                 Spacer()
                 Button(accountModification.saveChanges.rawValue) {

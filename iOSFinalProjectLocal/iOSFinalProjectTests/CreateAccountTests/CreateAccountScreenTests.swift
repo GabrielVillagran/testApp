@@ -1,10 +1,3 @@
-//
-//  iOSFinalProjectTests.swift
-//  iOSFinalProjectTests
-//
-//  Created by Trainee on 12/31/24.
-//
-
 import XCTest
 @testable import iOSFinalProject
 

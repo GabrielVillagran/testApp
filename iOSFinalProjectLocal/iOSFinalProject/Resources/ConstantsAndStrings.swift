@@ -1,10 +1,3 @@
-//
-//  ConstantsAndStrings.swift
-//  iOSFinalProject
-//
-//  Created by Trainee on 1/2/25.
-//
-
 import Foundation
 
 enum ValidationError: String {

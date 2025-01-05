@@ -1,10 +1,3 @@
-//
-//  MockPokemonTestService.swift
-//  iOSFinalProjectTests
-//
-//  Created by GenericDevCalifornia on 1/3/25.
-//
-
 import Foundation
 @testable import iOSFinalProject
 

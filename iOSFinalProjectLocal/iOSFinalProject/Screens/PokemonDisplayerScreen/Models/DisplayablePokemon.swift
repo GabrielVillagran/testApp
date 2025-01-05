@@ -1,10 +1,3 @@
-//
-//  PokemonCastMember.swift
-//  iOSFinalProject
-//
-//  Created by GenericDevCalifornia on 12/31/24.
-//
-
 import Foundation
 
 struct DisplayablePokemon: Codable {

@@ -1,10 +1,3 @@
-//
-//  PokemonDisplayerTests.swift
-//  iOSFinalProjectTests
-//
-//  Created by GenericDevCalifornia on 1/3/25.
-//
-
 import XCTest
 @testable import iOSFinalProject
 
@@ -16,8 +9,8 @@ final class PokemonDisplayerTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         mockPokemonTestService = MockPokemonTestService()
-        pokemonDisplayerViewModel = PokemonDisplayerViewModel(service: mockPokemonTestService)
-
+        pokemonDisplayerViewModel = PokemonDisplayerViewModel()
+        pokemonDisplayerViewModel.service = mockPokemonTestService
     }
 
     override func tearDownWithError() throws {
@@ -26,7 +19,7 @@ final class PokemonDisplayerTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func initializeMethodTestingIsSuccesfull() async {
+    func test_initializeMethodTestingIsSuccesfull() async {
         // Given
         let expectedPokemon = DisplayablePokemon(
             id: 1,
@@ -61,7 +54,7 @@ final class PokemonDisplayerTests: XCTestCase {
         }
     }
 
-    func initializeMethodTestingIsFail() async {
+    func test_initializeMethodTestingIsFail() async {
         // Given
         let expectedError = "404 Not Found"
 

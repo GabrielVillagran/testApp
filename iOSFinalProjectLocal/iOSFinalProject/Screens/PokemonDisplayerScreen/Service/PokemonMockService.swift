@@ -1,10 +1,3 @@
-//
-//  PokemonMockService.swift
-//  iOSFinalProject
-//
-//  Created by GenericDevCalifornia on 1/3/25.
-//
-
 import Foundation
 
 protocol PokemonService {

@@ -1,16 +1,9 @@
-//
-//  PokemonDisplayerView.swift
-//  iOSFinalProject
-//
-//  Created by GenericDevCalifornia on 1/3/25.
-//
-
 import Foundation
 import UIKit
 import Combine
 
 class PokemonDisplayerView: UIViewController {
-    private let viewModel: PokemonDisplayerViewModel = PokemonDisplayerViewModel(service: PokemonMockService())
+    @Inject private var viewModel: PokemonDisplayerViewModel
     var castDisplayer: UITableView = UITableView(frame: .zero)
     private var cast: [DisplayablePokemon] = []
     private var loader: UIActivityIndicatorView = UIActivityIndicatorView()

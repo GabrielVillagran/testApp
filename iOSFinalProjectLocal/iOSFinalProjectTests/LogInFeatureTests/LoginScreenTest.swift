@@ -1,10 +1,3 @@
-//
-//  LoginScreenTest.swift
-//  iOSFinalProjectTests
-//
-//  Created by Trainee on 1/3/25.
-//
-
 @testable import iOSFinalProject
 import XCTest
 
@@ -24,7 +17,7 @@ final class LoginScreenTest: XCTestCase {
     
     func testEmptyCredentialsShowErrorMessage() {
         // Given: Empty credentials
-        logInViewModel.username = ""
+        logInViewModel.email = ""
         logInViewModel.password = ""
         
         // When
@@ -38,7 +31,7 @@ final class LoginScreenTest: XCTestCase {
     
     func testCorrectCredentialsShowSuccessMessage() {
         // Given: Correct credentials
-        logInViewModel.username = "test@example.com"
+        logInViewModel.email = "test@example.com"
         logInViewModel.password = "12345678"
         
         // When
@@ -52,7 +45,7 @@ final class LoginScreenTest: XCTestCase {
     
     func testWrongUserShowInvalidUserMessage()  {
         // Given: Correct credentials
-        logInViewModel.username = "john5com@example.com"
+        logInViewModel.email = "john5com@example.com"
         logInViewModel.password = "johnps78"
         
         // When

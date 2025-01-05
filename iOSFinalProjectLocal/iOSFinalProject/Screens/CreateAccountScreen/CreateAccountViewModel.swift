@@ -1,10 +1,3 @@
-//
-//  CreateUserViewModel.swift
-//  TrainingFinalProject
-//
-//  Created by Trainee on 12/30/24.
-//
-
 import Foundation
 import SwiftUI
 

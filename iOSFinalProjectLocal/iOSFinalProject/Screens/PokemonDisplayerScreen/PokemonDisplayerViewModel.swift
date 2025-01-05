@@ -3,13 +3,15 @@ import UIKit
 
 class PokemonDisplayerViewModel {
 
-    private var service: PokemonService
+    var service: PokemonService
     @Published var pokemonState: PokemonDetailsState = .none
 
-    init(service: PokemonService) {
-        self.service = service
+    init() {
+        @Inject
+        var _service: PokemonService
+        self.service = _service
     }
-
+    
     func initialize() {
         pokemonState = .loading
         Task {

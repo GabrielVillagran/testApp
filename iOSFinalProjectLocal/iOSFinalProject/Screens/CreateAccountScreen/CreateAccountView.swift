@@ -1,17 +1,12 @@
-//
-//  CreateAccountView.swift
-//  TrainingFinalProject
-//
-//  Created by Trainee on 12/30/24.
-//
-
 import Foundation
 import SwiftUI
 
 struct CreateAccountView: View {
-    
-    @ObservedObject private var viewmodel = CreateAccountViewModel()
+    @ObservedObject private var viewModel: CreateAccountViewModel
 
+    init(viewModel: CreateAccountViewModel = DependencyInitializer.container.resolve(CreateAccountViewModel.self)!) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         NavigationView {
@@ -21,46 +16,46 @@ struct CreateAccountView: View {
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
                 
-                LabelAndTextField(title: CreateAccountStrings.nameLabel.rawValue, inputPlaceHolder: CreateAccountStrings.usernamePlaceHolder.rawValue, inputBinder: $viewmodel.name)
-                    .onChange(of: viewmodel.name) {
-                        viewmodel.validateUsername()
+                LabelAndTextField(title: CreateAccountStrings.nameLabel.rawValue, inputPlaceHolder: CreateAccountStrings.usernamePlaceHolder.rawValue, inputBinder: $viewModel.name)
+                    .onChange(of: viewModel.name) {
+                        viewModel.validateUsername()
                     }
                 
-                LabelAndTextField(title: CreateAccountStrings.emailLabel.rawValue, inputPlaceHolder: CreateAccountStrings.emailPlaceHolder.rawValue, inputBinder: $viewmodel.email)
-                    .onChange(of: viewmodel.email) {
-                        viewmodel.validateEmail()
+                LabelAndTextField(title: CreateAccountStrings.emailLabel.rawValue, inputPlaceHolder: CreateAccountStrings.emailPlaceHolder.rawValue, inputBinder: $viewModel.email)
+                    .onChange(of: viewModel.email) {
+                        viewModel.validateEmail()
                     }
                 
-                LabelAndTextField(title: CreateAccountStrings.passwordLabel.rawValue, inputPlaceHolder: CreateAccountStrings.passwordPlaceHolder.rawValue, inputBinder: $viewmodel.password)
-                    .onChange(of: viewmodel.password) {
-                        viewmodel.validatePassword()
+                LabelAndTextField(title: CreateAccountStrings.passwordLabel.rawValue, inputPlaceHolder: CreateAccountStrings.passwordPlaceHolder.rawValue, inputBinder: $viewModel.password)
+                    .onChange(of: viewModel.password) {
+                        viewModel.validatePassword()
                     }
-                ErrorLabel(message: viewmodel.validationStatus.rawValue)
+                ErrorLabel(message: viewModel.validationStatus.rawValue)
                 
                 Spacer()
                 Button(CreateAccountStrings.title.rawValue)
                 {
-                    if viewmodel.validateAccount() {
-                        viewmodel.showError = true
+                    if viewModel.validateAccount() {
+                        viewModel.showError = true
                     } else {
-                        viewmodel.saveUserInformation()
-                        viewmodel.accountCreated = true
-                        viewmodel.navigateToLogin = true
+                        viewModel.saveUserInformation()
+                        viewModel.accountCreated = true
+                        viewModel.navigateToLogin = true
                     }
                 }
-                .disabled(!viewmodel.validateInfo())
-                .alert(isPresented: $viewmodel.accountCreated) {
+                .disabled(!viewModel.validateInfo())
+                .alert(isPresented: $viewModel.accountCreated) {
                     Alert(
                         title: Text("Account Created"),
                         message: Text("Your account has been created succesfully."),
                         dismissButton: .default(Text("OK")) {
-                            viewmodel.navigateToLogin = true
+                            viewModel.navigateToLogin = true
                         }
                     )
                 }
                 NavigationLink(
                     destination: LoginView(),
-                    isActive: $viewmodel.navigateToLogin
+                    isActive: $viewModel.navigateToLogin
                 ) {
                     EmptyView()
                 }

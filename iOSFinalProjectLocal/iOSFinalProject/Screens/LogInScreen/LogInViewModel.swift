@@ -1,9 +1,3 @@
-//
-//  LogInViewModel.swift
-//  SwiftUIandUIKit
-//
-//  Created by GenericDevCalifornia on 12/30/24.
-
 import Combine
 import Foundation
 import SwiftUI

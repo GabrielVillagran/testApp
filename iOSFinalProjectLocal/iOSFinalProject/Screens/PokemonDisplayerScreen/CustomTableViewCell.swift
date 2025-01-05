@@ -1,10 +1,3 @@
-//
-//  CustomTableViewCell.swift
-//  week2_exam
-//
-//  Created by GenericDevCalifornia on 12/10/24.
-//
-
 import UIKit
 
 class CharacterTableViewCell: UITableViewCell {
