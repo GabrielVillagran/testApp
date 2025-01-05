@@ -11,6 +11,7 @@ import SwiftUI
 struct CreateAccountView: View {
     @ObservedObject private var viewmodel = DependencyInitializer.container.resolve(CreateAccountViewModel.self)!
 
+
     var body: some View {
         NavigationView {
             VStack {
@@ -38,8 +39,31 @@ struct CreateAccountView: View {
                 Spacer()
                 Button(CreateAccountStrings.title.rawValue)
                 {
+                    if viewmodel.validateAccount() {
+                        viewmodel.showError = true
+                    } else {
+                        viewmodel.saveUserInformation()
+                        viewmodel.accountCreated = true
+                        viewmodel.navigateToLogin = true
+                    }
                 }
                 .disabled(!viewmodel.validateInfo())
+                .alert(isPresented: $viewmodel.accountCreated) {
+                    Alert(
+                        title: Text("Account Created"),
+                        message: Text("Your account has been created succesfully."),
+                        dismissButton: .default(Text("OK")) {
+                            viewmodel.navigateToLogin = true
+                        }
+                    )
+                }
+                NavigationLink(
+                    destination: LoginView(),
+                    isActive: $viewmodel.navigateToLogin
+                ) {
+                    EmptyView()
+                }
+
             }.padding()
         }
     }
