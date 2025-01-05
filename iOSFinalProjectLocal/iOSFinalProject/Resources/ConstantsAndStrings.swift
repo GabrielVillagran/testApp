@@ -40,3 +40,11 @@ enum StringsConstantsValue: String {
     case invalidUserName = "Invalid Username or Password."
     case successfulLogin = "Login successful!"
 }
+
+enum accountModification: String {
+    case newUserName = "Enter a new username"
+    case newEmail = "Enter a new email"
+    case newPassword = "Enter a new Password"
+    case delete = "Delete Account"
+    case saveChanges = "Save Changes"
+}
