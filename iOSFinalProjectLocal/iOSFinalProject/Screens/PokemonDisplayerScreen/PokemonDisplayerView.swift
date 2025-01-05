@@ -10,7 +10,7 @@ import UIKit
 import Combine
 
 class PokemonDisplayerView: UIViewController {
-    private let viewModel: PokemonDisplayerViewModel = PokemonDisplayerViewModel(service: PokemonMockService())
+    private let viewModel: PokemonDisplayerViewModel = DependencyInitializer.container.resolve(PokemonDisplayerViewModel.self)!
     var castDisplayer: UITableView = UITableView(frame: .zero)
     private var cast: [DisplayablePokemon] = []
     private var loader: UIActivityIndicatorView = UIActivityIndicatorView()

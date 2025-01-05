@@ -9,8 +9,7 @@ import Foundation
 import SwiftUI
 
 struct CreateAccountView: View {
-    
-    @ObservedObject private var viewmodel = CreateAccountViewModel()
+    @ObservedObject private var viewmodel = DependencyInitializer.container.resolve(CreateAccountViewModel.self)!
 
     var body: some View {
         NavigationView {
