@@ -16,7 +16,7 @@ struct LoginView: View {
                     .font(.title)
                     .padding(100)
 
-                LabelAndTextField(title: "Username", inputPlaceHolder: "JohnDoe@gmail.com", inputBinder: $viewModel.username)
+                LabelAndTextField(title: "Email", inputPlaceHolder: "JohnDoe@gmail.com", inputBinder: $viewModel.email)
                     .padding()
                 LabelAndTextField(title: "Password", inputPlaceHolder: "********", inputBinder: $viewModel.password, isSecure: true)
                     .padding()
