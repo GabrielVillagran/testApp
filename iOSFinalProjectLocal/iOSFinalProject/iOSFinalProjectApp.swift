@@ -10,7 +10,7 @@ struct iOSFinalProjectApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
+            PokemonDetailsViewWrapper()
         }
     }
 }

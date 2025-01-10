@@ -71,14 +71,10 @@ extension PokemonDisplayerView {
         viewModel.$pokemonState.sink { [weak self] state in
             guard let self else { return }
             switch state {
-            case .none:
-                ()
             case .loading:
                 showLoader()
-                print(viewModel.pokemonState)
             case .error(let error):
                 show(errorMessage: error)
-                print(viewModel.pokemonState)
                 hideLoader()
             case .success(let pokemons): display(cast: pokemons)
                 hideLoader()

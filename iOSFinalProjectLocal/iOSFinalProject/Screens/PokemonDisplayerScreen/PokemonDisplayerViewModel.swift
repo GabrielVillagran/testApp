@@ -4,7 +4,7 @@ import UIKit
 class PokemonDisplayerViewModel {
 
     var service: PokemonService
-    @Published var pokemonState: PokemonDetailsState = .none
+    @Published var pokemonState: PokemonDetailsState = .loading
 
     init() {
         @Inject
@@ -15,6 +15,7 @@ class PokemonDisplayerViewModel {
     func initialize() {
         pokemonState = .loading
         Task {
+            sleep(4)
             do {
                 let responseViews = try await service.fetchPokemon()
                 let characters = responseViews.data
@@ -44,7 +45,7 @@ class PokemonDisplayerViewModel {
 }
 
 enum PokemonDetailsState: Codable {
-    case none
+    //case none
     case loading
     case error(String)
     case success([DisplayablePokemon])

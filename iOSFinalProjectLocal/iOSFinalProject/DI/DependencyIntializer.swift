@@ -16,5 +16,17 @@ class DependencyInitializer {
         container.register(PokemonDisplayerViewModel.self) { PokemonDisplayerViewModel() }
         container.register(CreateAccountViewModel.self) { CreateAccountViewModel() }
         
+        container.register(PokemonDetailsService.self) {
+            PokemonDetailsMockServiceImpl()
+        }
+        
+        container.register(PokemonImageService.self) {
+            PokemonImageMockServiceImpl()
+        }
+        
+        container.register(PokemonDetailsViewModel.self) {
+            PokemonDetailsViewModel()
+        }
+        
     }
 }
