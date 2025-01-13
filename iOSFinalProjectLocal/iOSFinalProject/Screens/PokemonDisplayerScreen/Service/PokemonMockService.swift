@@ -8,7 +8,7 @@ enum Errors: Error {
 }
 
 struct PokemonMockService: PokemonService {
-    func fetchPokemon() async throws -> PokemonResponse {
+    func fetchPokemon(page: Int) async throws -> PokemonResponse {
         var sampleItems: [Pokemon] {
             (1...10).map { index in
                 Pokemon(

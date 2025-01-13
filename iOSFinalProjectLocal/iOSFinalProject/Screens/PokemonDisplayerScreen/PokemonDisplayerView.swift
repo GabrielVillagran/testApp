@@ -85,7 +85,7 @@ extension PokemonDisplayerView {
     }
 
     func display(cast: [DisplayablePokemon]) {
-        self.cast = cast
+        self.cast.append(contentsOf: cast)
         castDisplayer.reloadData()
     }
 
@@ -114,6 +114,7 @@ extension PokemonDisplayerView: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         cell.configureInfo(with: cast[indexPath.row])
+        viewModel.onItemShown(for: indexPath.row)
         return cell
     }
     
@@ -122,10 +123,6 @@ extension PokemonDisplayerView: UITableViewDataSource, UITableViewDelegate {
         let pokemonDetailsView = PokemonDetailsView(id: selectedPokemon.id)
             present(pokemonDetailsView, animated: true, completion: nil)
             tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func moveToDetails(id: Int,closure: @escaping () -> PokemonDisplayerView) {
-        
     }
 }
 

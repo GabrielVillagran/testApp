@@ -5,6 +5,8 @@ class PokemonDisplayerViewModel {
 
     var service: PokemonService
     @Published var pokemonState: PokemonDetailsState = .loading
+    private var totalItemCount = 0
+    private var nextPage = 1
 
     init() {
         @Inject
@@ -12,12 +14,20 @@ class PokemonDisplayerViewModel {
         self.service = _service
     }
     
-    func initialize() {
+    func onItemShown(for index: Int) {
+        if index == totalItemCount - 1 {
+            initialize(page: nextPage)
+        }
+    }
+    
+    func initialize(page: Int? = 1) {
+        if nextPage == 11 { return }
         pokemonState = .loading
         Task {
 
             do {
-                let responseViews = try await service.fetchPokemon()
+                guard let page else {return}
+                let responseViews = try await service.fetchPokemon(page: page )
                 let characters = responseViews.data
                 if let characters {
                     let transformedCharacterList = transformPokemonData(from: characters)
@@ -40,7 +50,10 @@ class PokemonDisplayerViewModel {
 
     @MainActor
     private func getCharacterList(character: [DisplayablePokemon]) {
+        totalItemCount += character.count
+        nextPage += 1
         pokemonState = .success(character)
+        
     }
 }
 
