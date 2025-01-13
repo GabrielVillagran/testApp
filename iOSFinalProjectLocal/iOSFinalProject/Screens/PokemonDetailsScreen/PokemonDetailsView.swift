@@ -11,7 +11,18 @@ import Combine
 
 class PokemonDetailsView: UIViewController {
     
-    @Inject private var viewModel: PokemonDetailsViewModel
+    @Inject var viewModel: PokemonDetailsViewModel
+    
+    private var id: Int?
+    
+    init(id: Int) {
+        self.id = id
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var pokemon: DisplayablePokemon?
     private var subscription: [AnyCancellable] = []
@@ -111,7 +122,7 @@ class PokemonDetailsView: UIViewController {
     }
     
     private func setupViewModel() {
-        viewModel.initialize()
+        viewModel.initialize(id: id)
     }
     
     private func setupViews() {

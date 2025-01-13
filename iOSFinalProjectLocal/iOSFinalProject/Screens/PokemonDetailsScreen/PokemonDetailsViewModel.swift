@@ -12,9 +12,14 @@ class PokemonDetailsViewModel: ObservableObject {
     
     let pokemonDetailsService: PokemonDetailsService
     let pokemonImageService: PokemonImageService
+    
+    //@Published var pokemon: DisplayablePokemon?
+    
     @Published var pokemonState: PokemonDetailsViewState = .loading
     @Published var imageState: ImageViewState = .loading
     private var isLoading = false
+    
+    
 
     init() {
         @Inject

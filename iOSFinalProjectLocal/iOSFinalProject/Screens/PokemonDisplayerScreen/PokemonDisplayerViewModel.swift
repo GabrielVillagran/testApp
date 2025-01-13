@@ -15,7 +15,7 @@ class PokemonDisplayerViewModel {
     func initialize() {
         pokemonState = .loading
         Task {
-            sleep(4)
+
             do {
                 let responseViews = try await service.fetchPokemon()
                 let characters = responseViews.data

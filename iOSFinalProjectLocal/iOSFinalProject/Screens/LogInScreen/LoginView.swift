@@ -21,13 +21,6 @@ struct LoginView: View {
                         .font(.caption)
                 }
 
-                Button("Forgotten Password") {
-                    viewModel.forgotPassword()
-                }
-                .padding(10)
-                .font(.title2)
-                .foregroundColor(.gray)
-
                 Button("Sign In") {
                     viewModel.SignIn()
                 }
@@ -62,3 +55,4 @@ struct LoginView: View {
         }
     }
 }
+

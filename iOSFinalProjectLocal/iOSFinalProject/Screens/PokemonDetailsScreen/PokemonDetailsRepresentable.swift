@@ -11,7 +11,7 @@ import SwiftUI
 
 struct PokemonDetailsViewWrapper: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        return PokemonDetailsView()
+        return PokemonDetailsView(id: 2)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {

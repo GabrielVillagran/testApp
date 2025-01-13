@@ -11,13 +11,14 @@ class DependencyInitializer {
         container.register(RootViewModel.self) { RootViewModel() }
         container.register(UserSessionListener.self) { RootViewModel()}
         container.register(PokemonService.self) {
-            PokemonMockService()
+            PokemonServiceImpl()
         }
         container.register(PokemonDisplayerViewModel.self) { PokemonDisplayerViewModel() }
         container.register(CreateAccountViewModel.self) { CreateAccountViewModel() }
         
         container.register(PokemonDetailsService.self) {
-            PokemonDetailsMockServiceImpl()
+            //PokemonDetailsMockServiceImpl()
+            PokemonDetailsServiceImpl()
         }
         
         container.register(PokemonImageService.self) {

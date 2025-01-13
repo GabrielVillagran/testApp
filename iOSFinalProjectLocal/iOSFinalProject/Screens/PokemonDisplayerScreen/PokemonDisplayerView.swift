@@ -118,7 +118,14 @@ extension PokemonDisplayerView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("navigated")
+        let selectedPokemon = cast[indexPath.row]
+        let pokemonDetailsView = PokemonDetailsView(id: selectedPokemon.id)
+            present(pokemonDetailsView, animated: true, completion: nil)
+            tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func moveToDetails(id: Int,closure: @escaping () -> PokemonDisplayerView) {
+        
     }
 }
 

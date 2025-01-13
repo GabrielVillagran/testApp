@@ -10,7 +10,9 @@ struct iOSFinalProjectApp: App {
 
     var body: some Scene {
         WindowGroup {
-            PokemonDetailsViewWrapper()
+            LoginView()
+            //PokemonDisplayerViewWrapper()
+            //PokemonDetailsViewWrapper()
         }
     }
 }

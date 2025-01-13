@@ -1,8 +1,6 @@
 import Foundation
 
-protocol PokemonService {
-    func fetchPokemon() async throws -> PokemonResponse
-}
+
 
 enum Errors: Error {
     case invalidURL
