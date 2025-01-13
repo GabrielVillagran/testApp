@@ -18,13 +18,6 @@ enum CreateAccountStrings: String {
     case passwordLabel = "Password"
     case passwordPlaceHolder = "Secure Password"
 }
-enum Constants: Int {
-    case minimumUsernameInputLength = 3
-}
-
-enum FontSizes: CGFloat {
-    case errorMessageLabelSize = 12
-}
 
 enum StringsConstantsValue: String {
     case noUserNameOrPassword = "Please enter username and password."
@@ -40,4 +33,35 @@ enum accountModification: String {
     case newPassword = "Enter a new Password"
     case delete = "Delete Account"
     case saveChanges = "Save Changes"
+}
+
+enum Constants: Int {
+    case minimumUsernameInputLength = 3
+    case zeroValue = 0
+}
+
+enum FontSizes: CGFloat {
+    case errorMessageLabelSize = 12
+    case pokemonDetailsLabelFontSize = 22
+    case pokemonDetailsStackViewFontSize = 16
+}
+
+enum GeneralCGFloatValues: CGFloat {
+    case stackViewDetailsSpacing = 10
+    case constraintConstantSpace = 20
+    case constrainConstantBigSpace = 50
+    case constraintConstantNegativeSpace = -20
+    case constantHeightAnchor = 100
+    case constantImageHeightAnchor = 300
+    case constantImageWidthAnchor = 200
+    case constantCornerRadius = 5
+}
+
+enum ErrorMessages: String {
+    case errorFetchingData = "404 Not Found"
+    case unexpectedError = "Connection Failure, reconnecting..."
+}
+
+enum DetailsScreenServiceConstants : String {
+    case baseURL = "https://finalprojectpublic.onrender.com/"
 }

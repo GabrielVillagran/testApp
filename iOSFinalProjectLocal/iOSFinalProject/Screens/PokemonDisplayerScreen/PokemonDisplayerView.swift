@@ -23,6 +23,7 @@ class PokemonDisplayerView: UIViewController {
         setupCastDisplayer()
         setupViewModel()
         castDisplayer.dataSource = self
+        castDisplayer.delegate = self
         castDisplayer.translatesAutoresizingMaskIntoConstraints = false
         observeViewModel()
         loadViewDesign()
@@ -103,7 +104,7 @@ extension PokemonDisplayerView {
     }
 }
 
-extension PokemonDisplayerView: UITableViewDataSource {
+extension PokemonDisplayerView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cast.count
     }
@@ -114,6 +115,10 @@ extension PokemonDisplayerView: UITableViewDataSource {
         }
         cell.configureInfo(with: cast[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("navigated")
     }
 }
 

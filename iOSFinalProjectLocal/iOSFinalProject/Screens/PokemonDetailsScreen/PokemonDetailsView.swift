@@ -16,45 +16,70 @@ class PokemonDetailsView: UIViewController {
     private var pokemon: DisplayablePokemon?
     private var subscription: [AnyCancellable] = []
     
-    
-    
     private var pokemonName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont.boldSystemFont(ofSize: FontSizes.pokemonDetailsLabelFontSize.rawValue)
         return label
     }()
     
-    private var abilitiesView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CustomPokemonCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
+    private func createCustomStackView () -> UIStackView {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = GeneralCGFloatValues.stackViewDetailsSpacing.rawValue
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
+    }
+    
+    private var abilitiesStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = GeneralCGFloatValues.stackViewDetailsSpacing.rawValue
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
     }()
     
-    private var typesView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CustomPokemonCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .gray
-        return collectionView
+    private var typesStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = GeneralCGFloatValues.stackViewDetailsSpacing.rawValue
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
     }()
     
     private var pokemonHeight: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont.boldSystemFont(ofSize: FontSizes.pokemonDetailsLabelFontSize.rawValue)
         return label
     }()
     
     private var pokemonWeight: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.font = UIFont.boldSystemFont(ofSize: FontSizes.pokemonDetailsLabelFontSize.rawValue)
+        return label
+    }()
+    
+    private var pokemonAbilitiesLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: FontSizes.pokemonDetailsLabelFontSize.rawValue)
+        label.text = "Abilities:"
+        return label
+    }()
+    
+    private var pokemonTypesLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: FontSizes.pokemonDetailsLabelFontSize.rawValue)
+        label.text = "Types:"
         return label
     }()
     
@@ -77,8 +102,9 @@ class PokemonDetailsView: UIViewController {
         view.backgroundColor = .systemBackground
         setupViewModel()
         observeViewModelPokemonState()
-        setupLabels()
         setupViews()
+        setupLabels()
+        setupStackViews()
         setupImage()
         observeViewModelImageState()
         setupLoader()
@@ -89,57 +115,66 @@ class PokemonDetailsView: UIViewController {
     }
     
     private func setupViews() {
-        abilitiesView.dataSource = self
-        typesView.dataSource = self
-        view.addSubview(abilitiesView)
-        view.addSubview(typesView)
-        
+        view.addSubview(abilitiesStackView)
+        view.addSubview(typesStackView)
+        view.addSubview(pokemonName)
+        view.addSubview(pokemonHeight)
+        view.addSubview(pokemonWeight)
+        view.addSubview(pokemonAbilitiesLabel)
+        view.addSubview(pokemonTypesLabel)
+        view.addSubview(pokemonImageView)
+        view.addSubview(loader)
+    }
+    
+    private func setupStackViews() {
         NSLayoutConstraint.activate([
-            abilitiesView.topAnchor.constraint(equalTo: pokemonWeight.bottomAnchor, constant: 20),
-            abilitiesView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            abilitiesView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            abilitiesView.heightAnchor.constraint(equalToConstant: 100),
+            abilitiesStackView.topAnchor.constraint(equalTo: pokemonWeight.safeAreaLayoutGuide.bottomAnchor, constant: GeneralCGFloatValues.constrainConstantBigSpace.rawValue),
+            abilitiesStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            abilitiesStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: GeneralCGFloatValues.constraintConstantNegativeSpace.rawValue),
+            abilitiesStackView.heightAnchor.constraint(equalToConstant: GeneralCGFloatValues.constantHeightAnchor.rawValue),
             
-            typesView.topAnchor.constraint(equalTo: abilitiesView.bottomAnchor, constant: 20),
-            typesView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            typesView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            typesView.heightAnchor.constraint(equalToConstant: 100)
+            typesStackView.topAnchor.constraint(equalTo: abilitiesStackView.bottomAnchor, constant: GeneralCGFloatValues.constrainConstantBigSpace.rawValue),
+            typesStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            typesStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: GeneralCGFloatValues.constraintConstantNegativeSpace.rawValue),
+            typesStackView.heightAnchor.constraint(equalToConstant: GeneralCGFloatValues.constantHeightAnchor.rawValue)
         ])
     }
     
     private func setupLabels() {
-        view.addSubview(pokemonName)
-        view.addSubview(pokemonHeight)
-        view.addSubview(pokemonWeight)
-        
         NSLayoutConstraint.activate([
-            pokemonName.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            pokemonName.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            pokemonName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            pokemonName.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            pokemonName.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            pokemonName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: GeneralCGFloatValues.constraintConstantNegativeSpace.rawValue),
             
-            pokemonHeight.topAnchor.constraint(equalTo: pokemonName.bottomAnchor, constant: 10),
-            pokemonHeight.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            pokemonHeight.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            pokemonHeight.topAnchor.constraint(equalTo: pokemonName.bottomAnchor, constant: GeneralCGFloatValues.stackViewDetailsSpacing.rawValue),
+            pokemonHeight.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            pokemonHeight.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: GeneralCGFloatValues.constraintConstantNegativeSpace.rawValue),
             
-            pokemonWeight.topAnchor.constraint(equalTo: pokemonHeight.bottomAnchor, constant: 10),
-            pokemonWeight.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            pokemonWeight.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            pokemonWeight.topAnchor.constraint(equalTo: pokemonHeight.bottomAnchor, constant: GeneralCGFloatValues.stackViewDetailsSpacing.rawValue),
+            pokemonWeight.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            pokemonWeight.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: GeneralCGFloatValues.constraintConstantNegativeSpace.rawValue),
+            
+            pokemonAbilitiesLabel.topAnchor.constraint(equalTo: pokemonWeight.bottomAnchor, constant: GeneralCGFloatValues.stackViewDetailsSpacing.rawValue),
+            pokemonAbilitiesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            pokemonAbilitiesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: GeneralCGFloatValues.constraintConstantNegativeSpace.rawValue),
+            
+            pokemonTypesLabel.topAnchor.constraint(equalTo: abilitiesStackView.bottomAnchor, constant: GeneralCGFloatValues.stackViewDetailsSpacing.rawValue),
+            pokemonTypesLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            pokemonTypesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: GeneralCGFloatValues.constraintConstantNegativeSpace.rawValue)
         ])
     }
     
     private func setupImage() {
-        view.addSubview(pokemonImageView)
         NSLayoutConstraint.activate([
-            pokemonImageView.topAnchor.constraint(equalTo: typesView.bottomAnchor, constant: 20),
-            pokemonImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            pokemonImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            pokemonImageView.heightAnchor.constraint(equalToConstant: 300),
-            pokemonImageView.widthAnchor.constraint(equalToConstant: 200)
+            pokemonImageView.topAnchor.constraint(equalTo: typesStackView.bottomAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            pokemonImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: GeneralCGFloatValues.constraintConstantSpace.rawValue),
+            pokemonImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: GeneralCGFloatValues.constraintConstantNegativeSpace.rawValue),
+            pokemonImageView.heightAnchor.constraint(equalToConstant: GeneralCGFloatValues.constantImageHeightAnchor.rawValue),
+            pokemonImageView.widthAnchor.constraint(equalToConstant: GeneralCGFloatValues.constantImageWidthAnchor.rawValue)
         ])
     }
     
     private func setupLoader() {
-        view.addSubview(loader)
         NSLayoutConstraint.activate([
             loader.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loader.centerYAnchor.constraint(equalTo: view.centerYAnchor)
@@ -173,15 +208,15 @@ extension PokemonDetailsView {
     func displayInfo(pokemon: DisplayablePokemon) {
         hideLoader()
         self.pokemon = pokemon
-        pokemonName.text = pokemon.name
-        pokemonHeight.text = String(pokemon.height)
-        pokemonWeight.text = String(pokemon.weight)
+        pokemonName.text = "Name: \(pokemon.name)"
+        pokemonHeight.text = "Height: \(pokemon.height)"
+        pokemonWeight.text = "Weight: \(pokemon.weight)"
         loadImage(url: pokemon.image)
-        abilitiesView.reloadData()
-        typesView.reloadData()
+        updateAbilitiesStackView()
+        updateTypesStackView()
         
     }
-
+    
     func loadImage(url: String) {
         guard let imageURL = URL(string: url) else { return }
         viewModel.fetchMovieImage(url: imageURL)
@@ -217,33 +252,39 @@ extension PokemonDetailsView {
     
 }
 
-extension PokemonDetailsView: UICollectionViewDataSource {
+extension PokemonDetailsView {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let pokemon else { return 0 }
-        if collectionView == abilitiesView {
-            return pokemon.abilities.count
-        } else {
-            return pokemon.types.count
+    private func updateAbilitiesStackView() {
+        guard let abilities = pokemon?.abilities else { return }
+        
+        for ability in abilities {
+            let label = UILabel()
+            label.text = ability
+            label.textAlignment = .center
+            label.textColor = .white
+            label.backgroundColor = .systemBlue
+            label.layer.cornerRadius = GeneralCGFloatValues.constantCornerRadius.rawValue
+            label.layer.masksToBounds = true
+            label.numberOfLines = Constants.zeroValue.rawValue
+            label.font = UIFont.systemFont(ofSize: FontSizes.pokemonDetailsStackViewFontSize.rawValue)
+            abilitiesStackView.addArrangedSubview(label)
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let pokemon else { return UICollectionViewCell() }
+    private func updateTypesStackView() {
+        guard let types = pokemon?.types else { return }
         
-        if collectionView == abilitiesView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomPokemonCell
-            let ability = pokemon.abilities[indexPath.item]
-            cell.backgroundColor = .systemBlue
-            cell.configure(with: ability)
-            return cell
-            
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomPokemonCell
-            cell.backgroundColor = .systemGreen
-            let type = pokemon.types[indexPath.item]
-            cell.configure(with: type)
-            return cell
+        for type in types {
+            let label = UILabel()
+            label.text = type
+            label.textAlignment = .center
+            label.textColor = .white
+            label.backgroundColor = .systemGreen
+            label.layer.cornerRadius = GeneralCGFloatValues.constantCornerRadius.rawValue
+            label.layer.masksToBounds = true
+            label.numberOfLines = Constants.zeroValue.rawValue
+            label.font = UIFont.systemFont(ofSize: FontSizes.pokemonDetailsStackViewFontSize.rawValue)
+            typesStackView.addArrangedSubview(label)
         }
     }
 }
